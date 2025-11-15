@@ -1,0 +1,243 @@
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.5",
+    "react-icons/": "https://aistudiocdn.com/react-icons@^5.5.0/"
+  }
+}
+</script>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HCE Esquadrias | Precisão que Transforma Ambientes</title>
+    <link rel="icon" href="https://i.imgur.com/spMimAM.png" type="image/png">
+    
+    <!-- PERFORMANCE: Preload critical above-the-fold images -->
+    <link rel="preload" fetchpriority="high" as="image" href="https://picsum.photos/seed/hero-new/600/900?format=webp&quality=70" type="image/webp">
+    <link rel="preload" fetchpriority="high" as="image" href="https://picsum.photos/seed/about/1280/600?format=webp&quality=70" type="image/webp">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Slick Carousel for Sliders -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontSize: {
+            '5xl': ['2.9rem', { lineHeight: '1.2' }],
+            '6xl': ['3.65rem', { lineHeight: '1.2' }],
+            '7xl': ['4.25rem', { lineHeight: '1.2' }],
+            '8xl': ['5.75rem', { lineHeight: '1.15' }],
+          },
+          colors: {
+            'primary': '#0f172a', // Slate 900
+            'accent': '#22d3ee', // Cyan 400
+            'accent-dark': '#06b6d4', // Cyan 500
+            'light-bg': '#f8fafc', // Slate 50
+            'soft-gray': '#f1f5f9', // Slate 100
+            'body': '#475569', // Slate 600
+            'heading': '#0f172a' // Slate 900
+          },
+          fontFamily: {
+            'armstrong': ['Oswald', 'sans-serif'],
+            'poppins': ['Poppins', 'sans-serif'],
+          },
+           borderRadius: {
+              '4xl': '2rem',
+              '5xl': '3rem',
+           },
+           animation: {
+             'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+             'chat-fade-in-up': 'chatFadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+             'pulse-slow': 'pulse-slow 2.5s infinite ease-in-out',
+             'typing-dot': 'typing-dot 1.2s infinite ease-in-out',
+           },
+           keyframes: {
+             fadeInUp: {
+               '0%': { opacity: '0', transform: 'translateY(10px)' },
+               '100%': { opacity: '1', transform: 'translateY(0)' },
+             },
+             chatFadeInUp: {
+               '0%': { opacity: '0', transform: 'translateY(20px) scale(0.98)' },
+               '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+             },
+             'pulse-slow': {
+                '0%, 100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(15, 23, 42, 0.3)' },
+                '50%': { transform: 'scale(1.05)', boxShadow: '0 0 0 10px rgba(15, 23, 42, 0)' }
+              },
+              'typing-dot': {
+                '0%, 80%, 100%': { transform: 'scale(0.5)', opacity: '0.5' },
+                '40%': { transform: 'scale(1)', opacity: '1' }
+              }
+           }
+        }
+      }
+    }
+    </script>
+
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        /* PERFORMANCE OPTIMIZATION: Removed expensive SVG noise texture */
+        background-color: #f1f5f9; /* soft-gray */
+        font-family: 'Poppins', sans-serif;
+      }
+
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #e2e8f0; }
+      ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #0f172a; }
+
+      /* PERFORMANCE: Prevent layout shifts from images loading */
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+      img[width][height] {
+        aspect-ratio: attr(width) / attr(height);
+      }
+
+      /* Animação de revelação na rolagem - REVAMPED FOR PERFORMANCE */
+      .scroll-reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        will-change: transform, opacity;
+      }
+      .scroll-reveal.is-revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      /* Animação de texto cinético (stagger) - REVAMPED FOR PERFORMANCE */
+      .kinetic-text-reveal > span {
+          display: inline-block;
+          overflow: hidden;
+      }
+      .kinetic-text-reveal > span > span {
+          display: inline-block;
+          transform: translateY(100%);
+          opacity: 0;
+          transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s;
+          will-change: transform, opacity;
+      }
+      .is-revealed .kinetic-text-reveal > span > span {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* Estilo minimalista para formulários */
+      .minimal-input {
+        background-color: transparent;
+        border: none;
+        border-bottom: 2px solid #cbd5e1; /* slate-300 */
+        border-radius: 0;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 0;
+        padding-right: 0;
+        transition: border-color 0.4s ease;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+      .minimal-input:focus {
+        outline: none;
+        box-shadow: none;
+        border-color: #0f172a; /* primary */
+      }
+      
+      /* Estilo para opções de dropdown para alinhar com o tema */
+      .minimal-input option {
+        background: #f8fafc; /* light-bg */
+        color: #0f172a; /* primary */
+        font-family: 'Poppins', sans-serif;
+      }
+
+      /* Custom Select Dropdown - REVAMPED */
+      .select-wrapper {
+        position: relative;
+      }
+      .select-wrapper .minimal-input {
+        padding-right: 2rem; /* Make space for the icon */
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2.5' stroke='%2364748b'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.5rem center;
+        background-size: 1.5em;
+      }
+      /* IE11 fix */
+      .select-wrapper .minimal-input::-ms-expand {
+          display: none;
+      }
+
+      /* Animated label for inputs */
+      .input-group {
+          position: relative;
+      }
+      .animated-label {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          transform: translateY(-50%);
+          color: #64748b; /* slate-500 */
+          pointer-events: none;
+          transition: all 0.3s ease;
+          font-size: 1.125rem; /* text-lg */
+      }
+      .minimal-input:focus + .animated-label,
+      .minimal-input:not([value='']):not(:placeholder-shown) + .animated-label {
+          top: -0.5rem;
+          transform: translateY(0);
+          font-size: 0.875rem; /* text-sm */
+          color: #0f172a; /* primary */
+      }
+
+      /* Shimmer Effect for Buttons */
+      .shimmer-effect {
+        position: relative;
+        overflow: hidden;
+      }
+      .shimmer-effect::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 200%;
+        height: 100%;
+        background-image: linear-gradient(100deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 80%);
+        transform: skewX(-25deg);
+        animation: shimmer 2.5s infinite;
+      }
+      @keyframes shimmer {
+        0% { left: -100%; }
+        100% { left: 100%; }
+      }
+      
+      .animate-fadeInUp {
+        animation: fadeInUp 0.5s ease-out forwards;
+      }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>

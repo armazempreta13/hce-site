@@ -1,0 +1,21 @@
+# render.yaml - exemplo para deploy automático no Render.com
+# Substitua <REPO> e <BRANCH> pelos valores reais do seu repositório
+# Exemplo: repo: https://github.com/usuario/nome-repo
+services:
+  - type: "static"
+    name: "hce-site"
+    env: "static"
+    repo: "<REPO>"
+    branch: "<BRANCH>"
+    buildCommand: "npm install && npm run build"
+    publishPath: "dist"
+    # Para adicionar variáveis de ambiente que são usadas em build (ex: GEMINI_API_KEY)
+    envVars:
+      - key: "GEMINI_API_KEY"
+        # se o segredo for sensível, configure no painel do Render em vez de commitar aqui
+        value: "<SEU_GEMINI_API_KEY>"
+        sync: false
+    # Rewrites para Single Page App (serve index.html para todas as rotas)
+    staticPublishDirectory: "dist"
+    # Se preferir não colocar o segredo no repo, remova a seção envVars e configure
+    # as env vars manualmente no painel do Render após conectar o repositório.

@@ -1,0 +1,236 @@
+{
+  "start": {
+    "type": "message",
+    "botMessages": ["Olá! Sou o assistente virtual da HCE."],
+    "nextNode": "main_menu"
+  },
+  "main_menu": {
+    "type": "questionWithOptions",
+    "botMessages": ["Como posso te ajudar hoje?"],
+    "options": [
+      { "text": "Quero um orçamento", "nextNode": "quote_start", "icon": "QuoteIcon" },
+      { "text": "Dúvidas Técnicas (FAQ)", "nextNode": "faq_start", "icon": "QuestionIcon" },
+      { "text": "Ver Portfólio de Projetos", "nextNode": "portfolio_redirect", "icon": "PortfolioIcon" },
+      { "text": "Falar com um Especialista", "nextNode": "whatsapp_getName", "icon": "WhatsAppIcon" },
+      { "text": "Suporte Pós-Venda", "nextNode": "support_start", "icon": "CogIcon" }
+    ]
+  },
+  "main_menu_return": {
+    "type": "message",
+    "botMessages": ["Como mais posso te ajudar?"],
+    "nextNode": "main_menu"
+  },
+  "quote_start": {
+    "type": "questionWithOptions",
+    "botMessages": ["Excelente! Para um orçamento preciso, vamos entender seu projeto."],
+    "options": [
+      { "text": "Cliente Final", "nextNode": "quote_project_type" },
+      { "text": "Arquiteto/Engenheiro", "nextNode": "quote_b2b", "icon": "UserTieIcon" },
+      { "text": "Voltar", "nextNode": "main_menu", "icon": "ArrowLeftIcon" }
+    ]
+  },
+  "quote_b2b": {
+    "type": "questionWithOptions",
+    "botMessages": ["Perfeito! Temos canal prioritário para parceiros."],
+    "options": [
+      { "text": "Formulário Técnico", "nextNode": "contact_redirect" },
+      { "text": "WhatsApp Especialista", "nextNode": "whatsapp_getName" },
+      { "text": "Voltar", "nextNode": "quote_start", "icon": "ArrowLeftIcon" }
+    ]
+  },
+  "quote_project_type": {
+    "type": "questionWithOptions",
+    "botMessages": ["Seu projeto é obra nova ou reforma?"],
+    "options": [
+      { "text": "Obra Nova", "nextNode": "quote_property_type" },
+      { "text": "Reforma", "nextNode": "quote_property_type" },
+      { "text": "Voltar", "nextNode": "quote_start", "icon": "ArrowLeftIcon" }
+    ]
+  },
+  "quote_property_type": {
+    "type": "questionWithOptions",
+    "botMessages": ["É residencial ou comercial?"],
+    "options": [
+      { "text": "Residencial", "nextNode": "quote_service" },
+      { "text": "Comercial", "nextNode": "quote_service" },
+      { "text": "Voltar", "nextNode": "quote_project_type", "icon": "ArrowLeftIcon" }
+    ]
+  },
+  "quote_service": {
+    "type": "questionWithOptions",
+    "botMessages": ["Qual serviço você precisa?"],
+    "options": [
+      { "text": "Esquadrias (Janelas/Portas)", "nextNode": "quote_has_plans" },
+      { "text": "Pele de Vidro/Fachadas", "nextNode": "quote_has_plans" },
+      { "text": "Guarda-corpos", "nextNode": "quote_has_plans" },
+      { "text": "Ripados e Brises", "nextNode": "quote_has_plans" },
+      { "text": "Manutenção", "nextNode": "quote_has_plans" },
+      { "text": "Outro/Não sei", "nextNode": "quote_has_plans" },
+      { "text": "Voltar", "nextNode": "quote_property_type", "icon": "ArrowLeftIcon" }
+    ]
+  },
+  "quote_has_plans": {
+    "type": "questionWithOptions",
+    "botMessages": ["Você tem planta ou medidas dos vãos?"],
+    "options": [
+      { "text": "Sim, tenho", "nextNode": "quote_upload" },
+      { "text": "Não, preciso de visita", "nextNode": "quote_visit" },
+      { "text": "Voltar", "nextNode": "quote_service", "icon": "ArrowLeftIcon" }
+    ]
+  },
+  "quote_upload": {
+    "type": "questionWithInput",
+    "botMessages": ["Ótimo! Anexe o arquivo e descreva brevemente o projeto."],
+    "requestsFileUpload": true,
+    "nextStateKey": "projectDescription",
+    "nextNode": "quote_final"
+  },
+  "quote_visit": {
+    "type": "questionWithInput",
+    "botMessages": ["Sem problemas! Informe nome e endereço para agendarmos."],
+    "nextStateKey": "visitAddress",
+    "nextNode": "quote_final"
+  },
+  "quote_final": {
+    "type": "message",
+    "botMessages": ["Informações recebidas! Vou te redirecionar para finalizar."],
+    "nextNode": "contact_redirect"
+  },
+  "faq_start": {
+    "type": "questionWithOptions",
+    "botMessages": ["Sobre qual tópico é sua dúvida?"],
+    "options": [
+      { "text": "Linha Gold vs Suprema", "nextNode": "faq_lines" },
+      { "text": "Pintura e Durabilidade", "nextNode": "faq_paint" },
+      { "text": "Garantia dos Produtos", "nextNode": "faq_warranty" },
+      { "text": "Isolamento Acústico", "nextNode": "faq_acoustic" },
+      { "text": "Prazo de Entrega", "nextNode": "faq_delivery" },
+      { "text": "Personalização/Cores", "nextNode": "faq_custom" },
+      { "text": "Voltar", "nextNode": "main_menu" }
+    ]
+  },
+  "faq_lines": {
+    "type": "message",
+    "botMessages": ["**Linha Gold:** Premium, grandes vãos, perfis robustos, alto desempenho acústico.\n\n**Linha Suprema:** Excelente custo-benefício, versátil para residencial e comercial."],
+    "nextNode": "faq_more"
+  },
+  "faq_paint": {
+    "type": "message",
+    "botMessages": ["Usamos pintura eletrostática a pó - a mais resistente para alumínio. Não descasca, resiste a intempéries e maresia."],
+    "nextNode": "faq_more"
+  },
+  "faq_warranty": {
+    "type": "message",
+    "botMessages": ["5 anos para perfis de alumínio e 1 ano para componentes (acessórios, roldanas), conforme normas ABNT."],
+    "nextNode": "faq_more"
+  },
+  "faq_acoustic": {
+    "type": "message",
+    "botMessages": ["Sim! Esquadrias com vidros duplos ou laminados reduzem significativamente ruídos externos. Ideais para áreas urbanas."],
+    "nextNode": "faq_more"
+  },
+  "faq_delivery": {
+    "type": "message",
+    "botMessages": ["Prazo médio de 15-30 dias após aprovação do projeto. Varia conforme complexidade e estoque. Consulte no orçamento."],
+    "nextNode": "faq_more"
+  },
+  "faq_custom": {
+    "type": "message",
+    "botMessages": ["Sim! Oferecemos diversas cores (padrão RAL) e acabamentos personalizados. O prazo pode aumentar em 5-10 dias."],
+    "nextNode": "faq_more"
+  },
+  "faq_more": {
+    "type": "questionWithOptions",
+    "botMessages": ["Esclareci sua dúvida?"],
+    "options": [
+      { "text": "Sim, obrigado!", "nextNode": "main_menu_return" },
+      { "text": "Tenho outra dúvida", "nextNode": "faq_start" }
+    ]
+  },
+  "support_start": {
+    "type": "questionWithOptions",
+    "botMessages": ["Suporte HCE. Como podemos ajudar?"],
+    "options": [
+      { "text": "Solicitar Manutenção", "nextNode": "support_maintenance" },
+      { "text": "Status do Pedido", "nextNode": "support_status" },
+      { "text": "Problema na Instalação", "nextNode": "support_install" },
+      { "text": "Acionar Garantia", "nextNode": "support_warranty" },
+      { "text": "Voltar ao menu", "nextNode": "main_menu", "icon": "ArrowLeftIcon" }
+    ]
+  },
+  "support_maintenance": {
+    "type": "questionWithInput",
+    "botMessages": ["Informe nome e endereço para abrir chamado de manutenção."],
+    "nextStateKey": "maintenanceRequest",
+    "nextNode": "support_final"
+  },
+  "support_status": {
+    "type": "questionWithInput",
+    "botMessages": ["Informe número do pedido ou nome completo do titular."],
+    "nextStateKey": "statusRequest",
+    "nextNode": "support_final"
+  },
+  "support_install": {
+    "type": "questionWithInput",
+    "botMessages": ["Descreva o problema na instalação e informe endereço."],
+    "nextStateKey": "installIssue",
+    "nextNode": "support_final"
+  },
+  "support_warranty": {
+    "type": "questionWithInput",
+    "botMessages": ["Informe número da nota fiscal e descreva o defeito."],
+    "nextStateKey": "warrantyRequest",
+    "nextNode": "support_final"
+  },
+  "support_final": {
+    "type": "message",
+    "botMessages": ["Solicitação registrada! Nossa equipe entrará em contato em até 24h."],
+    "nextNode": "end"
+  },
+  "whatsapp_getName": {
+    "type": "questionWithInput",
+    "botMessages": ["Para agilizar, qual seu nome?"],
+    "nextStateKey": "userName",
+    "nextNode": "whatsapp_getProject"
+  },
+  "whatsapp_getProject": {
+    "type": "questionWithInput",
+    "botMessages": ["Obrigado, {userName}! Sobre o que gostaria de falar?"],
+    "nextStateKey": "projectInfo",
+    "nextNode": "whatsapp_link"
+  },
+  "whatsapp_link": {
+    "type": "messageWithLink",
+    "botMessages": ["Link preparado! Suas informações já estão na mensagem."],
+    "linkText": "Abrir WhatsApp",
+    "icon": "WhatsAppIcon",
+    "external": true,
+    "nextNode": "end"
+  },
+  "portfolio_redirect": {
+    "type": "internalRedirect",
+    "botMessages": ["Redirecionando para nosso portfólio..."],
+    "link": "/portfolio",
+    "nextNode": "post_redirect"
+  },
+  "contact_redirect": {
+    "type": "internalRedirect",
+    "botMessages": ["Redirecionando para orçamento detalhado..."],
+    "link": "/contato",
+    "nextNode": "post_redirect"
+  },
+  "post_redirect": {
+    "type": "questionWithOptions",
+    "botMessages": ["Você foi redirecionado para a página solicitada. Se precisar de mais alguma coisa, estou por aqui!"],
+    "options": [
+      { "text": "⬅️ Voltar ao menu principal", "nextNode": "main_menu_return" }
+    ]
+  },
+  "end": {
+    "type": "questionWithOptions",
+    "botMessages": ["Posso ajudar com mais algo?"],
+    "options": [
+      { "text": "Sim, voltar ao menu", "nextNode": "main_menu_return" }
+    ]
+  }
+}
