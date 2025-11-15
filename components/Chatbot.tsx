@@ -178,11 +178,22 @@ const Chatbot: React.FC = () => {
         (async () => {
             try {
                 const r = await fetch('/chatbot-data.json', { signal: ctrl.signal });
-                if (!r.ok) throw new Error('Load fail');
-                const d = await r.json();
-                if (ok) setTree(d);
+                if (r.ok) {
+                    const d = await r.json();
+                    if (ok) setTree(d);
+                    return;
+                }
+                // fallback to bundling the JSON (works when file is in project root)
+                const mod = await import('../chatbot-data.json');
+                if (ok) setTree((mod && (mod.default || mod)) as any);
             } catch (e) {
-                if (e instanceof Error && e.name !== 'AbortError') console.error('Tree err:', e);
+                // try static import as a last resort
+                try {
+                    const mod = await import('../chatbot-data.json');
+                    if (ok) setTree((mod && (mod.default || mod)) as any);
+                } catch (er) {
+                    if (er instanceof Error && (er as any).name !== 'AbortError') console.error('Tree err:', er);
+                }
             }
         })();
         
@@ -191,6 +202,8 @@ const Chatbot: React.FC = () => {
             ctrl.abort();
         };
     }, []);
+
+    
 
     // ==================== PERSISTENCE ====================
     useEffect(() => {
@@ -279,6 +292,22 @@ const Chatbot: React.FC = () => {
         const t = window.setTimeout(() => show(), C.TYPE);
         timerRef.current.push(t);
     }, [tree, addM, clear, nav]);
+
+    // Ensure initial conversation starts once the tree is loaded (if no saved state)
+    const startedRef = useRef(false);
+    useEffect(() => {
+        if (!tree || startedRef.current) return;
+        const saved = U.store.load();
+        if (saved && saved.msgs && saved.msgs.length > 0) {
+            // there is saved conversation, restore it
+            setSt(saved);
+            startedRef.current = true;
+            return;
+        }
+        // no saved state -> start conversation
+        proc('start', saved?.data || {});
+        startedRef.current = true;
+    }, [tree, proc]);
 
     // ==================== HANDLE OPTION ====================
     const handleOpt = useCallback((o: Option) => {
@@ -460,13 +489,13 @@ const Chatbot: React.FC = () => {
                     </button>
                 </header>
 
-                <div className="flex-1 p-5 space-y-2 overflow-y-auto min-h-0">
+                <div className="flex-1 p-5 space-y-2 overflow-y-auto">
                     {st.msgs.map(m => <MsgItem key={m.id} m={m} onOpt={handleOpt} />)}
                     {typing && <Typing />}
                     <div ref={endRef} />
                 </div>
 
-                <footer className="p-2 border-t border-slate-200/80 bg-white rounded-b-3xl">
+                <footer className="p-2 mt-auto border-t border-slate-200/80 bg-white rounded-b-3xl">
                     {showInp ? (
                         <div className="flex items-center gap-2 p-2">
                             {node?.requestsFileUpload && (
