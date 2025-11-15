@@ -96,7 +96,7 @@ const MsgItem = memo(({ m, onOpt }: { m: Msg; onOpt: (o: Option) => void }) => (
         {m.sender === 'bot' ? (
             <>
                 {m.text && (
-                    <div className="bg-white p-3.5 rounded-2xl rounded-bl-md shadow-sm border border-slate-200 max-w-[80vw] sm:max-w-xs">
+                    <div className="bg-white p-3.5 rounded-2xl rounded-bl-md shadow-sm border border-slate-200 max-w-xs">
                         <p className="text-body text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: m.text.replace(/\n/g, '<br />') }} />
                     </div>
                 )}
@@ -135,7 +135,7 @@ const MsgItem = memo(({ m, onOpt }: { m: Msg; onOpt: (o: Option) => void }) => (
                 )}
             </>
         ) : (
-            <div className="bg-primary text-white p-3.5 rounded-2xl rounded-br-md shadow-sm max-w-[80vw] sm:max-w-xs">
+            <div className="bg-primary text-white p-3.5 rounded-2xl rounded-br-md shadow-sm max-w-xs">
                 <p className="text-sm leading-relaxed">{m.text}</p>
             </div>
         )}
@@ -416,7 +416,7 @@ const Chatbot: React.FC = () => {
     // ==================== RENDER ====================
     return (
         <>
-            <div className="fixed bottom-6 right-6 z-[50]">
+            <div className="fixed bottom-6 right-6 z-[60]">
                 <button
                     onClick={toggle}
                     className={`w-16 h-16 bg-gradient-to-br from-primary to-slate-800 text-white flex items-center justify-center rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-primary/40 ${!open ? 'animate-pulse-slow' : ''}`}
@@ -432,8 +432,8 @@ const Chatbot: React.FC = () => {
             </div>
 
             <div
-                className={`fixed bottom-28 left-3 right-3 sm:right-6 sm:left-auto w-auto max-w-sm rounded-3xl z-60 flex flex-col transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-bottom-right bg-slate-50 shadow-2xl shadow-primary/20 border border-slate-200/50 ${open ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'}`}
-                style={{ height: 'clamp(360px, 70vh, 540px)' }}
+                className={`fixed bottom-28 right-6 w-[calc(100vw-3rem)] max-w-sm rounded-3xl z-50 flex flex-col transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-bottom-right bg-slate-50 shadow-2xl shadow-primary/20 border border-slate-200/50 ${open ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'}`}
+                style={{ height: 'clamp(400px, 70vh, 540px)' }}
             >
                 <header className="bg-gradient-to-br from-primary to-slate-800 p-5 rounded-t-3xl flex items-center justify-between text-white flex-shrink-0 shadow-lg">
                     <div className="flex items-center gap-4">
@@ -460,13 +460,13 @@ const Chatbot: React.FC = () => {
                     </button>
                 </header>
 
-                <div className="flex-1 p-5 space-y-2 overflow-y-auto pb-24">
+                <div className="flex-1 p-5 space-y-2 overflow-y-auto min-h-0">
                     {st.msgs.map(m => <MsgItem key={m.id} m={m} onOpt={handleOpt} />)}
                     {typing && <Typing />}
                     <div ref={endRef} />
                 </div>
 
-                <footer className="p-2 mt-auto border-t border-slate-200/80 bg-white rounded-b-3xl">
+                <footer className="p-2 border-t border-slate-200/80 bg-white rounded-b-3xl">
                     {showInp ? (
                         <div className="flex items-center gap-2 p-2">
                             {node?.requestsFileUpload && (
